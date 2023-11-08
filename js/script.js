@@ -1,7 +1,8 @@
 const btnNovo = document.querySelector(".btnNovo");
-const tela = document.querySelector(".areaNovoProduto");
+const form = document.querySelector(".areaNovoProduto");
 const bloqueio  = document.querySelector(".block");
 const botaoCancelar = document.querySelector(".btnCancelar");
+const botaoSalvar = document.querySelector(".btnSalvar");
 
 function verificarEstoque(linha)
 {
@@ -26,7 +27,7 @@ function ClicouBotaoAdicionar(event)
 {
 	event.preventDefault();
 
-	tela.classList.remove("escondido");
+	form.classList.remove("escondido");
 	bloqueio.classList.remove("escondido");
 }
 
@@ -35,20 +36,11 @@ btnNovo.addEventListener("click", ClicouBotaoAdicionar);
 
 // ---------------------------------------------------------------
 
-function cancelar(event)
+function cancelarProduto(event)
 {
 	event.preventDefault();
-	sumir();
-}
-
-function sumir()
-{
-	tela.txtCodigo.value = "";
-    tela.txtNome.value = "";
-    tela.txtQtd.value = "";
-    tela.txtValor.value = "";
-	tela.classList.add("escondido");
+    form.classList.add("escondido");
 	bloqueio.classList.add("escondido");
 }
 
-botaoCancelar.addEventListener("click", cancelar);
+botaoCancelar.addEventListener("click", cancelarProduto);
