@@ -1,19 +1,13 @@
-const btnNovo = document.querySelector(".btnNovo");
-const form = document.querySelector(".areaNovoProduto");
-const bloqueio  = document.querySelector(".block");
-const botaoCancelar = document.querySelector(".btnCancelar");
-const botaoSalvar = document.querySelector(".btnSalvar");
-
-function verificarEstoque(linha)
+function verificarEstoque(linha) 
 {
-    let valorQuantidade = Number(linha.children[2].textContent );
-    if (valorQuantidade <= 60)
+    let valorQuantidade = Number(linha.children[2].textContent);
+    if (valorQuantidade <= 60) 
     {
         linha.children[4].innerHTML = "<span class='vermelho'>Comprar</span>";
-    }
-    else
+    } 
+    else 
     {
-        linha.children[4].textContent = "Regular";
+        linha.children[4].innerHTML = "Regular";
     }
 }
 
@@ -23,24 +17,71 @@ for (let i = 0; i < linhasProdutos.length; i++) {
     verificarEstoque( linhasProdutos[i]);
 }
 
-function ClicouBotaoAdicionar(event)
-{
-	event.preventDefault();
+const botaoNovo = document.querySelector('.btnNovo');
+const bloqueio = document.querySelector('.block');
+const form = document.querySelector('.areaNovoProduto');
 
-	form.classList.remove("escondido");
-	bloqueio.classList.remove("escondido");
+botaoNovo.addEventListener('click', function(e){
+    e.preventDefault();
+
+    const caixaNome = document.querySelector('#txtNome');
+    const caixaQtd = document.querySelector('#txtQtd');
+    const caixaValor = document.querySelector('#txtValor');
+
+    caixaNome.value = "";
+    caixaQtd.value = "";
+    caixaValor.value="";
+
+    bloqueio.classList.remove('escondido');
+    form.classList.remove('escondido');
+});
+
+
+const botaoCancelar = document.querySelector('#btnCancelarNovoProduto');
+if (botaoCancelar)
+{
+    botaoCancelar.addEventListener('click', function(e){
+        e.preventDefault();
+        bloqueio.classList.add('escondido');
+        form.classList.add('escondido');
+    });
 }
 
-btnNovo.addEventListener("click", ClicouBotaoAdicionar);
-
-
-// ---------------------------------------------------------------
-
-function cancelarProduto(event)
+const botaoSalvar = document.querySelector('#btnSalvarNovoProduto');
+if(botaoSalvar)
 {
-	event.preventDefault();
-    form.classList.add("escondido");
-	bloqueio.classList.add("escondido");
+    botaoSalvar.addEventListener('click', function(e){
+        e.preventDefault();
+
+        let nome = document.querySelector('#txtNome').value;
+        let qtd = Number(document.querySelector('#txtQtd').value);
+        let valor = Number(document.querySelector('#txtValor').value);
+
+        const produto = {
+            'nome': nome,
+            'qtd': qtd,
+            'valor': valor
+        }
+
+        AdicionarLinha(produto);
+
+        bloqueio.classList.add('escondido');
+        form.classList.add('escondido');
+    });    
 }
 
-botaoCancelar.addEventListener("click", cancelarProduto);
+function AdicionarLinha(produto) 
+{
+    const tabelaProdutos = document.querySelector('.conteudoTabelaProdutos');
+    const novaLinha = document.createElement('tr');
+    novaLinha.classList.add('linha-produto');
+    novaLinha.innerHTML = `<td></td>
+                            <td>${produto.nome}</td>
+                            <td>${produto.qtd}</td>
+                            <td>${produto.valor}</td>
+                            <td></td>`;
+    tabelaProdutos.appendChild(novaLinha);
+
+    verificarEstoque(novaLinha);
+}
+
