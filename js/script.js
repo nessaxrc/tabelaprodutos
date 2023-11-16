@@ -1,3 +1,11 @@
+function formatarMoeda (valor)
+{
+    const numero = Number(valor);
+    const formatoMoeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'});
+    const valorFormatado = formatoMoeda.format(numero);
+    return valorFormatado;
+}
+
 function verificarEstoque(linha) 
 {
     let valorQuantidade = Number(linha.children[2].textContent);
@@ -60,7 +68,7 @@ if(botaoSalvar)
         const produto = {
             'nome': nome,
             'qtd': qtd,
-            'valor': valor
+            'valor': formatarMoeda(valor)
         }
 
         AdicionarLinha(produto);
@@ -69,6 +77,15 @@ if(botaoSalvar)
         form.classList.add('escondido');
     });    
 }
+
+// function inserircodigo()
+// {
+//     while (novaLinha !== "") 
+//     {
+//         let codigoproduto = Number(linha.children[0].textContent);
+//         codigoproduto = i;
+//         linha.children[0].innerHTML = i;
+//     }
 
 function AdicionarLinha(produto) 
 {
@@ -85,3 +102,5 @@ function AdicionarLinha(produto)
     verificarEstoque(novaLinha);
 }
 
+let valorP = Number(linha.children[3].textContent);
+formatarMoeda(valorP)
